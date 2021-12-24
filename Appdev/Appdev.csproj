@@ -247,6 +247,9 @@
     <Content Include="Views\Shared\Lockout.cshtml" />
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Users\Index.cshtml" />
+    <Content Include="Views\Users\EditAdminAndStaff.cshtml" />
+    <Content Include="Views\Users\EditTrainer.cshtml" />
+    <Content Include="Views\Users\EditTrainee.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

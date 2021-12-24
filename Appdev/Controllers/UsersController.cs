@@ -91,5 +91,44 @@ namespace Appdev.Controllers
             var userOfStaffRole = userFinal.Where(u => u.Role == "Trainer" || u.Role == "Trainee").Where(u => u.Id != userIdCurrentLogin);
             return View(userOfStaffRole);
         }
+
+        [HttpGet]
+        public async Task<ActionResult> Edit(string id)
+        {
+            var roleTemp = await UserManager.GetRolesAsync(id);
+            if (roleTemp.First() == "Admin")
+            {
+                return RedirectToAction("EditAdminAndStaff", new { id = id });
+            }
+            if (roleTemp.First() == "Staff")
+            {
+                return RedirectToAction("EditAdminAndStaff", new { id = id });
+            }
+            if (roleTemp.First() == "Trainer")
+            {
+                return RedirectToAction("EditTrainer", new { id = id });
+            }
+
+            return RedirectToAction("EditTrainee", new { id = id });
+        }
+
+        public ActionResult EditAdminAndStaff(string id)
+        {
+            var user = _db.Users.Find(id);
+            return View(user);
+        }
+
+        public ActionResult EditTrainer(string id)
+        {
+            var user = _db.Trainers.Find(id);
+            return View(user);
+        }
+
+        public ActionResult EditTrainee(string id)
+        {
+            var user = _db.Trainees.Find(id);
+            return View(user);
+        }
+
     }
 }
