@@ -1,0 +1,44 @@
+﻿@model IEnumerable<Appdev.Models.Course>
+@{
+    ViewBag.Title = "Course";
+}
+
+<h2>All Course</h2>
+@Html.ActionLink("Create", "Create", null, new { @class = "btn btn-primary" })
+@using (Html.BeginForm("Index", "Courses"))
+{
+    <div class="form-group">
+        @Html.Label("Search task by Name")
+        @Html.TextBox("name", null, new { @class = "form-control" })
+        <button type="submit" class="btn btn-primary">Search by Name</button>
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Course Id</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">Course Description</th>
+            <th scope="col">Category Name</th>
+            <th scope="col">Action </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Id</th>
+                <th>@item.Name</th>
+                <td>@item.Description</td>
+                <td>@item.Category.Name</td>
+                <td>
+                    @Html.ActionLink("Edit", "Edit", new { Id = item.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Delete", "Delete", new { Id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
