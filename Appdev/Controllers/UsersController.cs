@@ -12,7 +12,7 @@ using static Appdev.Controllers.AccountController;
 
 namespace Appdev.Controllers
 {
-    [Authorize(Roles = "Admin,Staff")]
+    [Authorize]
     public class UsersController : Controller
     {
         private ApplicationDbContext _db;
@@ -53,7 +53,7 @@ namespace Appdev.Controllers
             }
         }
 
-
+        [Authorize(Roles = "Admin,Staff")]
         // GET: Users
         public async Task<ActionResult> Index()
         {
@@ -92,6 +92,7 @@ namespace Appdev.Controllers
             return View(userOfStaffRole);
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         [HttpGet]
         public async Task<ActionResult> Edit(string id)
         {
@@ -112,6 +113,7 @@ namespace Appdev.Controllers
             return RedirectToAction("EditTrainee", new { id = id });
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public ActionResult EditAdmin(string id)
         {
             var user = _db.Admins.Find(id);
@@ -119,6 +121,7 @@ namespace Appdev.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Staff")]
         [ValidateAntiForgeryToken]
         public ActionResult EditAdmin(Admin user)
         {
@@ -142,6 +145,7 @@ namespace Appdev.Controllers
             return View(user);
         }
 
+        [Authorize(Roles = "Admin,Staff")]
         public ActionResult EditStaff(string id)
         {
             var user = _db.Staffs.Find(id);
@@ -149,6 +153,7 @@ namespace Appdev.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Staff")]
         [ValidateAntiForgeryToken]
         public ActionResult EditStaff(Staff user)
         {
@@ -172,13 +177,30 @@ namespace Appdev.Controllers
             return View(user);
         }
 
+        [Authorize(Roles = "Admin,Trainer")]
         public ActionResult EditTrainer(string id)
         {
+            if (id == null)
+            {
+                string userIdCurrentLogin = string.Empty;
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                if (claimsIdentity != null)
+                {
+                    var userIdClaim = claimsIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+                    if (userIdClaim != null)
+                    {
+                        userIdCurrentLogin = userIdClaim.Value;
+                    }
+                }
+                id = userIdCurrentLogin;
+            }
+
             var user = _db.Trainers.Find(id);
             return View(user);
         }
 
         [HttpPost]
+        [Authorize(Roles = "Admin,Trainer")]
         [ValidateAntiForgeryToken]
         public ActionResult EditTrainer(Trainer user)
         {
@@ -197,20 +219,44 @@ namespace Appdev.Controllers
                 userFromDb.Speciality = user.Speciality;
                 _db.Entry(userFromDb).State = EntityState.Modified;
                 _db.SaveChanges();
+
+                if (User.IsInRole("Trainer"))
+                {
+                    ViewData["Message"] = "Success: Update user info";
+                    return View(user);
+                }
+
                 return RedirectToAction("Index");
             }
 
             return View(user);
         }
 
+        [Authorize(Roles = "Staff,Trainee")]
         public ActionResult EditTrainee(string id)
         {
+            if (id == null)
+            {
+                string userIdCurrentLogin = string.Empty;
+                var claimsIdentity = User.Identity as ClaimsIdentity;
+                if (claimsIdentity != null)
+                {
+                    var userIdClaim = claimsIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+                    if (userIdClaim != null)
+                    {
+                        userIdCurrentLogin = userIdClaim.Value;
+                    }
+                }
+                id = userIdCurrentLogin;
+            }
+
             var user = _db.Trainees.Find(id);
             return View(user);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [Authorize(Roles = "Staff,Trainee")]
         public ActionResult EditTrainee(Trainee user)
         {
             var userFromDb = _db.Trainees.Find(user.Id);
@@ -229,6 +275,13 @@ namespace Appdev.Controllers
                 userFromDb.Education = user.Education;
                 _db.Entry(userFromDb).State = EntityState.Modified;
                 _db.SaveChanges();
+
+                if (User.IsInRole("Trainee"))
+                {
+                    ViewData["Message"] = "Success: Update user info";
+                    return View(user);
+                }
+
                 return RedirectToAction("Index");
             }
 
@@ -236,6 +289,7 @@ namespace Appdev.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = "Admin,Staff")]
         public ActionResult Delete(string id)
         {
             var user = _db.Users.Find(id);

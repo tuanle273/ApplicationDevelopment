@@ -6,11 +6,16 @@
 }
 
 <h2>EditTrainee</h2>
-
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Message
+    </div>
+}
 @using (Html.BeginForm())
 {
     @Html.AntiForgeryToken()
-    
+
     <div class="form-horizontal">
         <h4>Trainee</h4>
         <hr />
