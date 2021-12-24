@@ -29,5 +29,11 @@ namespace Appdev.Models
         {
             return new ApplicationDbContext();
         }
+
+        public DbSet<User> Users { get; set; }
+        public DbSet<Admin> Admins { get; set; }
+        public DbSet<Staff> Staffs { get; set; }
+        public DbSet<Trainee> Trainees { get; set; }
+        public DbSet<Trainer> Trainers { get; set; }
     }
 }
