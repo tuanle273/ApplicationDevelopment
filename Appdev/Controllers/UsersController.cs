@@ -98,11 +98,11 @@ namespace Appdev.Controllers
             var roleTemp = await UserManager.GetRolesAsync(id);
             if (roleTemp.First() == "Admin")
             {
-                return RedirectToAction("EditAdminAndStaff", new { id = id });
+                return RedirectToAction("EditAdmin", new { id = id });
             }
             if (roleTemp.First() == "Staff")
             {
-                return RedirectToAction("EditAdminAndStaff", new { id = id });
+                return RedirectToAction("EditStaff", new { id = id });
             }
             if (roleTemp.First() == "Trainer")
             {
@@ -112,9 +112,63 @@ namespace Appdev.Controllers
             return RedirectToAction("EditTrainee", new { id = id });
         }
 
-        public ActionResult EditAdminAndStaff(string id)
+        public ActionResult EditAdmin(string id)
         {
-            var user = _db.Users.Find(id);
+            var user = _db.Admins.Find(id);
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditAdmin(Admin user)
+        {
+            var userFromDb = _db.Admins.Find(user.Id);
+            if (userFromDb == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                userFromDb.PhoneNumber = user.PhoneNumber;
+                userFromDb.FullName = user.FullName;
+                userFromDb.Age = user.Age;
+                userFromDb.Address = user.Address;
+                _db.Entry(userFromDb).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(user);
+        }
+
+        public ActionResult EditStaff(string id)
+        {
+            var user = _db.Staffs.Find(id);
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditStaff(Staff user)
+        {
+            var userFromDb = _db.Staffs.Find(user.Id);
+            if (userFromDb == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                userFromDb.PhoneNumber = user.PhoneNumber;
+                userFromDb.FullName = user.FullName;
+                userFromDb.Age = user.Age;
+                userFromDb.Address = user.Address;
+                _db.Entry(userFromDb).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
             return View(user);
         }
 
@@ -124,9 +178,60 @@ namespace Appdev.Controllers
             return View(user);
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTrainer(Trainer user)
+        {
+            var userFromDb = _db.Trainers.Find(user.Id);
+            if (userFromDb == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                userFromDb.PhoneNumber = user.PhoneNumber;
+                userFromDb.FullName = user.FullName;
+                userFromDb.Age = user.Age;
+                userFromDb.Address = user.Address;
+                userFromDb.Speciality = user.Speciality;
+                _db.Entry(userFromDb).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
+            return View(user);
+        }
+
         public ActionResult EditTrainee(string id)
         {
             var user = _db.Trainees.Find(id);
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult EditTrainee(Trainee user)
+        {
+            var userFromDb = _db.Trainees.Find(user.Id);
+            if (userFromDb == null)
+            {
+                return HttpNotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                userFromDb.PhoneNumber = user.PhoneNumber;
+                userFromDb.FullName = user.FullName;
+                userFromDb.Age = user.Age;
+                userFromDb.Address = user.Address;
+                userFromDb.DateOfBirth = user.DateOfBirth;
+                userFromDb.Education = user.Education;
+                _db.Entry(userFromDb).State = EntityState.Modified;
+                _db.SaveChanges();
+                return RedirectToAction("Index");
+            }
+
             return View(user);
         }
 
