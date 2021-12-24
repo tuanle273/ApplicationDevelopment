@@ -33,9 +33,21 @@
                 <td>@user.Email</td>
                 <td>@user.Role</td>
                 <td>
-                    <a href="@Url.Action("Edit","Users", new { id = user.Id})" class="btn btn-warning">Edit</a>
-                    <a href="@Url.Action("Delete","Users", new { id = user.Id})" class="btn btn-danger">Delete</a>
-                    <a href="@Url.Action("ResetPassword","Account", new { id = user.Id})" class="btn btn-danger">Forgot Pass</a>
+                    @if (User.IsInRole("Admin"))
+                    {
+                        <a href="@Url.Action("Edit","Users", new { id = user.Id})" class="btn btn-warning">Edit</a>
+                        <a href="@Url.Action("Delete","Users", new { id = user.Id})" class="btn btn-danger">Delete</a>
+                        <a href="@Url.Action("ResetPassword","Account", new { id = user.Id})" class="btn btn-success">Forgot Pass</a>
+                    }
+                    @if (User.IsInRole("Staff"))
+                    {
+                        if (@user.Role == "Trainee")
+                        {
+                            <a href="@Url.Action("Edit","Users", new { id = user.Id})" class="btn btn-warning">Edit</a>
+                            <a href="@Url.Action("Delete","Users", new { id = user.Id})" class="btn btn-danger">Delete</a>
+                            <a href="@Url.Action("ResetPassword","Account", new { id = user.Id})" class="btn btn-success">Forgot Pass</a>
+                        }
+                    }
                 </td>
             </tr>
         }
