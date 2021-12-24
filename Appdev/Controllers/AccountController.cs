@@ -9,6 +9,9 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using Appdev.Models;
+using Microsoft.AspNet.Identity.EntityFramework;
+using Microsoft.Owin;
+using System.Collections.Generic;
 
 namespace Appdev.Controllers
 {
@@ -17,15 +20,29 @@ namespace Appdev.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
 
         public AccountController()
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager )
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            _roleManager = roleManager;
+        }
+
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
         }
 
         public ApplicationSignInManager SignInManager
@@ -136,36 +153,82 @@ namespace Appdev.Controllers
 
         //
         // GET: /Account/Register
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin,Staff")]
         public ActionResult Register()
         {
+            List<SelectListItem> list = new List<SelectListItem>();
+            if (User.IsInRole("Admin"))
+            {
+                foreach (var role in RoleManager.Roles.Where(r=> r.Name != "Trainee"))
+                {
+                    list.Add(new SelectListItem() { Value = role.Name, Text = role.Name });
+                }
+            }
+            if (User.IsInRole("Staff"))
+            {
+                foreach (var role in RoleManager.Roles.Where(r => r.Name == "Trainee"))
+                {
+                    list.Add(new SelectListItem() { Value = role.Name, Text = role.Name });
+                }
+            }
+            ViewBag.Roles = list;
             return View();
         }
 
         //
         // POST: /Account/Register
         [HttpPost]
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin,Staff")]
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Register(RegisterViewModel model)
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                if (model.RoleName == "Admin")
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
-
-                    return RedirectToAction("Index", "Home");
+                    var user = new Admin { UserName = model.Email, Email = model.Email, FullName = model.Fullname, Address = model.Address, Age = model.Age};
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        result = await UserManager.AddToRoleAsync(user.Id, "Admin");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
+                if (model.RoleName == "Staff")
+                {
+                    var user = new Staff { UserName = model.Email, Email = model.Email, FullName = model.Fullname, Address = model.Address, Age = model.Age };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        result = await UserManager.AddToRoleAsync(user.Id, "Staff");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    AddErrors(result);
+                }
+                if (model.RoleName == "Trainer")
+                {
+                    var user = new Trainer { UserName = model.Email, Email = model.Email, FullName = model.Fullname, Address = model.Address, Age = model.Age };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        result = await UserManager.AddToRoleAsync(user.Id, "Trainer");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    AddErrors(result);
+                }
+                if (model.RoleName == "Trainee")
+                {
+                    var user = new Trainee { UserName = model.Email, Email = model.Email, FullName = model.Fullname, Address = model.Address, Age = model.Age };
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        result = await UserManager.AddToRoleAsync(user.Id, "Trainee");
+                        return RedirectToAction("Index", "Home");
+                    }
+                    AddErrors(result);
+                }
+
             }
 
             // If we got this far, something failed, redisplay form
@@ -481,5 +544,19 @@ namespace Appdev.Controllers
             }
         }
         #endregion
+
+        public class ApplicationRoleManager : RoleManager<IdentityRole>
+        {
+            public ApplicationRoleManager(IRoleStore<IdentityRole, string> roleStore) : base(roleStore) { }
+
+            public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+            {
+
+                var manager = new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationDbContext>()));
+
+                return manager;
+
+            }
+        }
     }
 }
