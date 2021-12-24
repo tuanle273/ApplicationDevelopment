@@ -235,5 +235,18 @@ namespace Appdev.Controllers
             return View(user);
         }
 
+        [HttpGet]
+        public ActionResult Delete(string id)
+        {
+            var user = _db.Users.Find(id);
+            if (user == null)
+            {
+                return HttpNotFound();
+            }
+            _db.Users.Remove(user);
+            _db.SaveChanges();
+            return RedirectToAction("Index");
+        }
+
     }
 }
