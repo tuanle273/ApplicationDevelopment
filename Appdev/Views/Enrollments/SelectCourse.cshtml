@@ -1,0 +1,38 @@
+﻿
+@model IEnumerable<ApplicationDevelopment.Models.Course>
+@{
+    ViewBag.Title = "Course";
+}
+
+<h2>All Course</h2>
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Course Id</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">Course Description</th>
+            <th scope="col">Category Name</th>
+            <th scope="col">Action </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Id</th>
+                <th>@item.Name</th>
+                <td>@item.Description</td>
+                <td>@item.Category.Name</td>
+                <td>
+                    @Html.ActionLink("SelectTrainee", "SelectTrainee", new { Id = item.Id }, new { @class = "btn btn-success" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+
+

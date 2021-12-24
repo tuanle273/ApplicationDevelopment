@@ -1,0 +1,28 @@
+﻿@model ApplicationDevelopment.ViewModels.ChangeCourseViewmodel
+
+
+<h2>Change Course</h2>
+@if (ViewBag.message != null)
+{
+    <p class="text text-danger">@ViewBag.message</p>
+}
+@using (Html.BeginForm("ChangeCourse", "Assignment", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Change Course</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    @Html.HiddenFor(m => m.UserId)
+    <div class="form-group">
+        @Html.LabelFor(m => m.Course.Id, new { @class = "col-md-2 control-label" })
+        @Html.DropDownListFor(m => m.Course.Id, new SelectList(Model.CourseList, "Id", "Name"), new { @class = "form-control" })
+        @Html.ValidationMessageFor(model => model.Course.Id, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("Back", "Index", "Courses", null, new { @class = "btn btn-default" })
+            <input type="submit" class="btn btn-default" value="Change Course" />
+        </div>
+    </div>
+}
+

@@ -1,0 +1,37 @@
+﻿@model IEnumerable<ApplicationDevelopment.Models.Trainer>
+@{
+    ViewBag.Title = "Trainee";
+}
+
+<h2>All Trainer</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>User Name</th>
+            <th>Email</th>
+            <th scope="col">Action </th>
+        </tr>
+    </thead>
+    <tbody>
+        @{var i = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@item.FullName</td>
+                <td>@item.Email</td>
+                <td>
+                    @Html.ActionLink("Assignment", "Assignment", new { Id = item.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("ChangeCourse", "ChangeCourse", new { Id = item.Id }, new { @class = "btn btn-warning" })
+                    @Html.ActionLink("DeleteAssignment", "DeleteAssignment", new { Id = item.Id }, new { @class = "btn btn-danger" })
+                </td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>
+
+
+
