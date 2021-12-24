@@ -1,0 +1,38 @@
+﻿@model Appdev.Models.Category
+@{
+    ViewBag.Title = "Crate New Category";
+}
+@if (ViewBag.message != null)
+{
+    <p class="text text-danger">@ViewBag.message</p>
+}
+<h2>Create New Category</h2>
+
+@using (Html.BeginForm("Create", "Categories", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
+    <h4>Create a category.</h4>
+    <hr />
+    @Html.ValidationSummary("", new { @class = "text-danger" })
+    <div class="form-group">
+        @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+        </div>
+        @Html.ValidationMessageFor(model => model.Name, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+        </div>
+        @Html.ValidationMessageFor(model => model.Description, "", new { @class = "text-danger" })
+    </div>
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            @Html.ActionLink("Back", "Index", "Categories", null, new { @class = "btn btn-default" })
+            <input type="submit" class="btn btn-default" value="Create New Category" />
+        </div>
+    </div>
+}
+

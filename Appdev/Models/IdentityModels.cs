@@ -35,5 +35,9 @@ namespace Appdev.Models
         public DbSet<Staff> Staffs { get; set; }
         public DbSet<Trainee> Trainees { get; set; }
         public DbSet<Trainer> Trainers { get; set; }
+        public DbSet<Category> categories { get; set; }
+        public DbSet<Course> Courses { get; set; }
+        public DbSet<Assign> Assigns { get; set; }
+        public DbSet<Enroll> Enrolls { get; set; }
     }
 }
