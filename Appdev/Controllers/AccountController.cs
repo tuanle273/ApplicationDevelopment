@@ -20,10 +20,12 @@ namespace Appdev.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
-        private ApplicationRoleManager _roleManager;
+        private ApplicationRoleManager _roleManager; 
+        private ApplicationDbContext _db;
 
         public AccountController()
         {
+            _db = new ApplicationDbContext();
         }
 
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager roleManager )
@@ -267,7 +269,7 @@ namespace Appdev.Controllers
 
         //
         // GET: /Account/ForgotPassword
-        [AllowAnonymous]
+        [Authorize(Roles = "Admin")]
         public ActionResult ForgotPassword()
         {
             return View();
@@ -311,10 +313,17 @@ namespace Appdev.Controllers
 
         //
         // GET: /Account/ResetPassword
-        [AllowAnonymous]
-        public ActionResult ResetPassword(string code)
+        [Authorize(Roles = "Admin")]
+        public async Task<ActionResult> ResetPassword(string id)
         {
-            return code == null ? View("Error") : View();
+            var user = _db.Users.Find(id);
+            var code = UserManager.GeneratePasswordResetToken(id);
+            ResetPasswordViewModel viewModel = new ResetPasswordViewModel()
+            {
+                Email = user.Email,
+                Code = code
+            };
+            return id == null ? View("Error") : View(viewModel);
         }
 
         //

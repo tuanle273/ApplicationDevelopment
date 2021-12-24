@@ -35,6 +35,7 @@
                 <td>
                     <a href="@Url.Action("Edit","Users", new { id = user.Id})" class="btn btn-warning">Edit</a>
                     <a href="@Url.Action("Delete","Users", new { id = user.Id})" class="btn btn-danger">Delete</a>
+                    <a href="@Url.Action("ResetPassword","Account", new { id = user.Id})" class="btn btn-danger">Forgot Pass</a>
                 </td>
             </tr>
         }
