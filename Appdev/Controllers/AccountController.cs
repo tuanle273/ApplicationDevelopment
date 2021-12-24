@@ -219,7 +219,7 @@ namespace Appdev.Controllers
                 }
                 if (model.RoleName == "Trainee")
                 {
-                    var user = new Trainee { UserName = model.Email, Email = model.Email, FullName = model.Fullname, Address = model.Address, Age = model.Age };
+                    var user = new Trainee { UserName = model.Email, Email = model.Email, FullName = model.Fullname, Address = model.Address, Age = model.Age, DateOfBirth = DateTime.Now };
                     var result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
@@ -230,6 +230,23 @@ namespace Appdev.Controllers
                 }
 
             }
+
+            List<SelectListItem> list = new List<SelectListItem>();
+            if (User.IsInRole("Admin"))
+            {
+                foreach (var role in RoleManager.Roles.Where(r => r.Name != "Trainee"))
+                {
+                    list.Add(new SelectListItem() { Value = role.Name, Text = role.Name });
+                }
+            }
+            if (User.IsInRole("Staff"))
+            {
+                foreach (var role in RoleManager.Roles.Where(r => r.Name == "Trainee"))
+                {
+                    list.Add(new SelectListItem() { Value = role.Name, Text = role.Name });
+                }
+            }
+            ViewBag.Roles = list;
 
             // If we got this far, something failed, redisplay form
             return View(model);
