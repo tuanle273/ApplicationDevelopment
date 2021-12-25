@@ -26,13 +26,22 @@
                     {
                         <li>@Html.ActionLink("Users Manager", "Index", "Users")</li>
                     }
+                    @if (User.IsInRole("Staff"))
+                    {
+                        <li>@Html.ActionLink("Category", "Index", "Categories")</li>
+                        <li>@Html.ActionLink("Course", "Index", "Courses")</li>
+                        <li>@Html.ActionLink("Assign Trainer", "SelectCourse", "Assigns")</li>
+                        <li>@Html.ActionLink("Enroll Trainee", "SelectCourse", "Enrolls")</li>
+                    }
                     @if (User.IsInRole("Trainer"))
                     {
                         <li>@Html.ActionLink("Edit Profile", "EditTrainer", "Users")</li>
+                        <li>@Html.ActionLink("View Course Assigned", "Index", "Trainers")</li>
                     }
                     @if (User.IsInRole("Trainee"))
                     {
                         <li>@Html.ActionLink("Edit Profile", "EditTrainee", "Users")</li>
+                        <li>@Html.ActionLink("View Course Enrolled", "Index", "Trainees")</li>
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")
