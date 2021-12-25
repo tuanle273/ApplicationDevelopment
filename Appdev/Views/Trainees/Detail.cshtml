@@ -1,0 +1,33 @@
+﻿@model IEnumerable<Appdev.Models.Enroll>
+@{
+    ViewBag.Title = "Trainee";
+}
+
+<h2>All Trainee</h2>
+@if (ViewBag.Message != null)
+{
+    <div class="alert alert-success" role="alert">
+        @ViewBag.Message
+    </div>
+}
+<table class="table">
+    <thead>
+        <tr>
+            <th>STT</th>
+            <th>User Name</th>
+            <th>Email</th>
+        </tr>
+    </thead>
+    <tbody>
+        @{var i = 1;}
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@i</td>
+                <td>@item.Trainee.FullName</td>
+                <td>@item.Trainee.Email</td>
+            </tr>
+            i++;
+        }
+    </tbody>
+</table>

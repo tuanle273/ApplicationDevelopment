@@ -1,0 +1,31 @@
+﻿@model IEnumerable<Appdev.Models.Enroll>
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>View all course assigned</h2>
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Course Id</th>
+            <th scope="col">Course Name</th>
+            <th scope="col">Course Description</th>
+            <th scope="col">Action </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <th>@item.Id</th>
+                <th>@item.Course.Name</th>
+                <td>@item.Course.Description</td>
+                <td>
+                    @Html.ActionLink("Detail", "Detail","Trainees", new { Id = item.Id }, new { @class = "btn btn-success" })
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
