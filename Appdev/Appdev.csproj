@@ -201,6 +201,7 @@
     <Compile Include="Models\Enroll.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\OverViewViewModel.cs" />
     <Compile Include="Models\Staff.cs" />
     <Compile Include="Models\Trainee.cs" />
     <Compile Include="Models\Trainer.cs" />
@@ -279,10 +280,11 @@
     <Content Include="Views\Enrolls\SelectTrainee.cshtml" />
     <Content Include="Views\Assigns\SelectCourse.cshtml" />
     <Content Include="Views\Assigns\SelectTrainer.cshtml" />
+    <Content Include="Views\OverViews\SelectCourse.cshtml" />
+    <Content Include="Views\OverViews\Overview.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
-    <Folder Include="Views\OverViews\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff2" />

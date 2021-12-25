@@ -1,0 +1,79 @@
+﻿@model Appdev.Models.OverViewViewModel
+@{
+    ViewBag.Title = "Overview";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>List Of Trainer</h2>
+<input type="text" id="searchTrainer" placeholder="Search info">
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Trainer Id</th>
+            <th scope="col">Trainer Name</th>
+            <th scope="col">Trainer Email</th>
+        </tr>
+    </thead>
+    <tbody id="tblDataTrainer">
+        @foreach (var item in Model.TrainerList)
+        {
+            <tr>
+                <th>@item.Id</th>
+                <th>@item.Trainer.FullName</th>
+                <td>@item.Trainer.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<br />
+<h2>List Of Trainee</h2>
+<input type="text" id="searchTrainee" placeholder="Search info">
+<table class="table">
+    <thead>
+        <tr>
+            <th scope="col">Trainee Id</th>
+            <th scope="col">Trainee Name</th>
+            <th scope="col">Trainee Email</th>
+        </tr>
+    </thead>
+    <tbody id="tblDataTrainee">
+        @foreach (var item in Model.TraineeList)
+        {
+            <tr>
+                <th>@item.Id</th>
+                <th>@item.Trainee.FullName</th>
+                <td>@item.Trainee.Email</td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+@Scripts.Render("~/bundles/jquery")
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#searchTrainer").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#tblDataTrainer tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $("#searchTrainee").on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            $("#tblDataTrainee tr").filter(function () {
+                $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+            });
+        });
+    });
+</script>
