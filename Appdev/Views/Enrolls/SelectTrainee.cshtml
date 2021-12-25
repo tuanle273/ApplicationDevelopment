@@ -1,9 +1,10 @@
-﻿@model IEnumerable<ApplicationDevelopment.Models.Trainer>
+﻿
+@model IEnumerable<Appdev.Models.Trainee>
 @{
     ViewBag.Title = "Trainee";
 }
 
-<h2>All Trainer</h2>
+<h2>All Trainee</h2>
 
 <table class="table">
     <thead>
@@ -23,9 +24,9 @@
                 <td>@item.FullName</td>
                 <td>@item.Email</td>
                 <td>
-                    @Html.ActionLink("Assignment", "Assignment", new { Id = item.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Enrollment", "Enrollment", new { Id = item.Id }, new { @class = "btn btn-success" })
                     @Html.ActionLink("ChangeCourse", "ChangeCourse", new { Id = item.Id }, new { @class = "btn btn-warning" })
-                    @Html.ActionLink("DeleteAssignment", "DeleteAssignment", new { Id = item.Id }, new { @class = "btn btn-danger" })
+                    @Html.ActionLink("DeleteEnroll", "DeleteEnroll", new { Id = item.Id }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
             i++;
