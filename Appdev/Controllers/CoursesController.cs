@@ -57,7 +57,7 @@ namespace Appdev.Controllers
                 {
                     Categories = _db.categories.ToList()
                 };
-                ViewBag.message = "This Course had been created";
+              
                 return View(selectedcategorylist);
             }
             else

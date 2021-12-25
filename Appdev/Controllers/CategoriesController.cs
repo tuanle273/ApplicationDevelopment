@@ -46,7 +46,7 @@ namespace Appdev.Controllers
             var IfCategoryExist = _db.categories.SingleOrDefault(t => t.Name == c.Name);
             if (IfCategoryExist != null)
             {
-                ViewBag.message = "This Category had been created!";
+             
                 return View();
             }
             else

@@ -1,16 +1,16 @@
 ﻿using Appdev.Models;
 using Microsoft.AspNet.Identity;
-using System.Data.Entity;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Data.Entity;
 using System.Web;
 using System.Web.Mvc;
 
 namespace Appdev.Controllers
 {
     [Authorize(Roles = "Staff")]
-    public class EnrollsController : Controller
+    public class AssignsController : Controller
     {
         private ApplicationDbContext _db;
         private static int courseId;
@@ -21,59 +21,57 @@ namespace Appdev.Controllers
                 ModelState.AddModelError("", error);
             }
         }
-        public EnrollsController()
+        public AssignsController()
         {
             _db = new ApplicationDbContext();
         }
         // GET: Enrollments
         public ActionResult SelectCourse()
         {
-            return View(_db.Courses.Include(c=>c.Category).ToList());
+            return View(_db.Courses.Include(t => t.Category).ToList());
         }
 
-        public ActionResult SelectTrainee(int? id)
+        public ActionResult SelectTrainer(int? id)
         {
             if (id != null)
             {
                 courseId = id.Value;
             }
-            return View(_db.Users.OfType<Trainee>().ToList());
+            return View(_db.Users.OfType<Trainer>().ToList());
         }
 
-        public ActionResult Enrollment(string Id)
+        public ActionResult Assignment(string Id)
         {
             if (Id == null)
             {
-                
                 return RedirectToAction("SelectCourse");
             }
-            Enroll enrollment = new Enroll()
+            Assign assign = new Assign()
             {
-                TraineeId = Id,
+                TrainerId = Id,
                 CourseId = courseId
             };
-            var enrollExist = _db.Enrolls.Where(c => c.CourseId == courseId && c.TraineeId == Id);
-            if (enrollExist.Any())
-            { 
-                return RedirectToAction("SelectTrainee");
+            var assignExist = _db.Assigns.Where(c => c.CourseId == courseId && c.TrainerId == Id);
+            if (assignExist.Any())
+            {
+                return RedirectToAction("SelectTrainer");
             }
-            _db.Enrolls.Add(enrollment);
+            _db.Assigns.Add(assign);
             _db.SaveChanges();
-            ViewData["Message"] = "Success: Enroll Successfully";
+            ViewData["Message"] = "Success: Assign Successfully";
             return RedirectToAction("SelectCourse");
         }
 
-        public ActionResult DeleteEnroll(string id)
+        public ActionResult DeleteAssignment(string id)
         {
             if (id == null)
             {
-           
                 return RedirectToAction("SelectCourse");
             }
-            var enrollment = _db.Enrolls.Where(e => e.CourseId == courseId && e.TraineeId == id).FirstOrDefault();
-            _db.Enrolls.Remove(enrollment);
+            var assignment = _db.Assigns.Where(e => e.CourseId == courseId && e.TrainerId == id).FirstOrDefault();
+            _db.Assigns.Remove(assignment);
             _db.SaveChanges();
-            ViewData["Message"] = "Success: Delete Enroll Successfully";
+            ViewData["Message"] = "Success: Delete Assign Successfully";
             return RedirectToAction("SelectCourse");
         }
     }

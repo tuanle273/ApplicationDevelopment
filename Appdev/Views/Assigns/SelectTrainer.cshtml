@@ -1,7 +1,7 @@
 ﻿
-@model IEnumerable<Appdev.Models.Trainee>
+@model IEnumerable<Appdev.Models.Trainer>
 @{
-    ViewBag.Title = "Trainee";
+    ViewBag.Title = "Trainer";
 }
 
 <h2>All Trainee</h2>
@@ -29,7 +29,7 @@
                 <td>@item.FullName</td>
                 <td>@item.Email</td>
                 <td>
-                    @Html.ActionLink("Enrollment", "Enrollment", new { Id = item.Id }, new { @class = "btn btn-success" })
+                    @Html.ActionLink("Assignment", "Assignment", new { Id = item.Id }, new { @class = "btn btn-success" })
                     @Html.ActionLink("DeleteEnroll", "DeleteEnroll", new { Id = item.Id }, new { @class = "btn btn-danger" })
                 </td>
             </tr>
