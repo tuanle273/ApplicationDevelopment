@@ -17,11 +17,10 @@
                     <span class="icon-bar"></span>
                     <span class="icon-bar"></span>
                 </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                @Html.ActionLink("FPT Greenwich", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
             <div class="navbar-collapse collapse">
-                <ul class="nav navbar-nav">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
+                <ul class="nav navbar-nav">\
                     @if (User.IsInRole("Admin") || User.IsInRole("Staff"))
                     {
                         <li>@Html.ActionLink("Users Manager", "Index", "Users")</li>

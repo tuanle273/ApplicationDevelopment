@@ -10,10 +10,12 @@
         <h1>List All User</h1>
     </div>
     <div class="col-6">
-        @Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })
+        @Html.ActionLink("Create new Account", "Register", "Account", routeValues: null,htmlAttributes: new { id = "registerLink" })
     </div>
 </div>
-<input type="text" id="search" placeholder="Search info">
+<br />
+<input type="text" id="search" placeholder="Search user by name">
+<br />
 <br />
 <table class="table table-bordered">
     <thead>
@@ -40,7 +42,7 @@
                 {
                     <a href="@Url.Action("Edit","Users", new { id = user.Id})" class="btn btn-warning">Edit</a>
                     <a href="@Url.Action("Delete","Users", new { id = user.Id})" class="btn btn-danger">Delete</a>
-                    <a href="@Url.Action("ResetPassword","Account", new { id = user.Id})" class="btn btn-success">Forgot Pass</a>
+                    <a href="@Url.Action("ResetPassword","Account", new { id = user.Id})" class="btn btn-success">Change Pass</a>
                 }
                 @if (User.IsInRole("Staff"))
                 {
@@ -48,7 +50,7 @@
                     {
                         <a href="@Url.Action("Edit","Users", new { id = user.Id})" class="btn btn-warning">Edit</a>
                         <a href="@Url.Action("Delete","Users", new { id = user.Id})" class="btn btn-danger">Delete</a>
-                        <a href="@Url.Action("ResetPassword","Account", new { id = user.Id})" class="btn btn-success">Forgot Pass</a>
+                        <a href="@Url.Action("ResetPassword","Account", new { id = user.Id})" class="btn btn-success">Change Pass</a>
                     }
                 }
             </td>

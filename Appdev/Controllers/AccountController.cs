@@ -313,7 +313,7 @@ namespace Appdev.Controllers
 
         //
         // GET: /Account/ResetPassword
-        [Authorize(Roles = "Admin")]
+        
         public async Task<ActionResult> ResetPassword(string id)
         {
             var user = _db.Users.Find(id);
