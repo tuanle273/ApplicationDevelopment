@@ -181,17 +181,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\202112241048148_initdb.cs" />
-    <Compile Include="Migrations\202112241048148_initdb.Designer.cs">
-      <DependentUpon>202112241048148_initdb.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202112241732004_createTableForcoureCategory.cs" />
-    <Compile Include="Migrations\202112241732004_createTableForcoureCategory.Designer.cs">
-      <DependentUpon>202112241732004_createTableForcoureCategory.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\202112241733405_createTableForcoureCategory2.cs" />
-    <Compile Include="Migrations\202112241733405_createTableForcoureCategory2.Designer.cs">
-      <DependentUpon>202112241733405_createTableForcoureCategory2.cs</DependentUpon>
+    <Compile Include="Migrations\202204230652357_new.cs" />
+    <Compile Include="Migrations\202204230652357_new.Designer.cs">
+      <DependentUpon>202204230652357_new.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -306,14 +298,8 @@
     <Content Include="Scripts\jquery-3.4.1.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\202112241048148_initdb.resx">
-      <DependentUpon>202112241048148_initdb.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202112241732004_createTableForcoureCategory.resx">
-      <DependentUpon>202112241732004_createTableForcoureCategory.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\202112241733405_createTableForcoureCategory2.resx">
-      <DependentUpon>202112241733405_createTableForcoureCategory2.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\202204230652357_new.resx">
+      <DependentUpon>202204230652357_new.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
